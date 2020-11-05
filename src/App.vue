@@ -1,28 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Loaded v-if="drawer" :drawer="drawer"  @changeDrawer="onDrawerChange"/>
+    <Main v-else-if="main" :drawer="drawer"  @changeDrawer="onDrawerChange" @showResult="onShowResult"/>
+    <Final :drawer="drawer"  @changeDrawer="onDrawerChange" @showMain="onShowMain"/>
   </div>
-</template>
+</template> 
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import './assets/fonts/fonts.css';
+import Loaded from './components/Loaded.vue';
+import Final from './components/Final.vue';
+import Main from './components/Main.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Loaded,
+    Final,
+    Main
+  },
+   data: () => ({
+    drawer: true,
+    main: false
+  }),
+  methods: {
+		onDrawerChange(event) {
+			this.drawer = event;
+			this.main = true;
+    },   
+    onShowResult() {
+			this.drawer = false;
+			this.main = false;
+    },
+    onShowMain() {
+			this.drawer = false;
+			this.main = true;
+    },
+    
   }
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss" src="@/assets/css/index.scss" />
